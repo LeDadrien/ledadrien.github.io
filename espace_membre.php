@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aéroclub DFS</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="images/logo-dfs-onglet.png" type="image/png">
+  <style>
+        #content { display: none; }
+    </style>
+</head>
+<body>
+
+  <header role="banner">
+    <a href="accueil.php">
+    <img src="images/logo_dfs_banner.png" alt="Logo ACDFS">
+    </a>
+<!-- Menu mobile qui glisse -->
+<nav class="mobile-slide-menu" id="mobileMenu">
+  <ul>
+    <li><a href="accueil.php">Accueil</a></li>
+    <li><a href="espace_membre.php">Espace Membre</a></li>
+    <li><a href="album_photo.html">Album Photo</a></li>
+    <li><a href="webcam.php">Webcam LFPP</a></li>
+    <li><a href="https://openflyers.com/acdfs/index.php">OpenFlyers</a></li>
+  </ul>
+</nav>
+   <h2>Aéroclub Dassault Falcon Service</h2>
+   <!-- Bouton burger pour mobile -->
+<button class="burger" onclick="toggleMenu()">☰</button>
+    <div id="datetime" class="datetime"></div>
+
+    
+  </header>
+ 
+  <div class="main-wrapper">
+    <aside class="sidebar">
+      <nav>
+        <ul>
+          <li><a href="accueil.php">Accueil</a></li>
+          <li><a href="espace_membre.php">Espace Membre</a></li>
+          <li><a href="album_photo.html">Album Photo</a></li>
+          <li><a href="webcam.php">Webcam LFPP</a></li>
+        </ul>
+      </nav>
+        <div id="datetime" class="datetime"></div>
+    <div class="sidebar-footer">
+    <a href="https://openflyers.com/acdfs/index.php" target="_blank" rel="noopener noreferrer">
+      <img src="images/logo-open-flyers.png" alt="Open-Flyers" class="footer-logo">
+      </a>
+
+    </div>
+    
+    </aside>
+<div id="login">
+        <h2>Mot de passe requis</h2>
+        <input type="password" id="password" placeholder="Mot de passe">
+        <button onclick="checkPassword()">Entrer</button>
+        <p id="error" style="color:red;"></p>
+    </div>
+    <div class="content" id="content">
+      <main>
+        
+        <h2>Téléchargements</h2>
+        <br>
+<div class="download-row">
+  <a href="documents/notams.pdf" download class="doc">
+    <img src="images/doc_img.png" class="del-logo" alt="Télécharger OM-A">
+    <p>OM-A</p>
+  </a>
+  <a href="documents/programme.pdf" download class="doc">
+    <img src="images/doc_img.png" class="del-logo" alt="Télécharger OM-B C172">
+    <p>OM-B C172S</p>
+  </a>
+  <a href="documents/fiche_inscription.pdf" download class="doc">
+    <img src="images/doc_img.png" class="del-logo" alt="Télécharger Fiche">
+    <p>Fiche</p>
+  </a>
+</div>
+
+
+<br>
+
+<h2> Liens Utiles </h2>
+
+<div class="download-row">
+ <a href="https://aviation.meteo.fr/login.php" style="color: black; font-weight:bold"target="_blank" rel="noopener noreferrer">AEROWEB</a>
+ <a href="https://sofia-briefing.aviation-civile.gouv.fr/sofia/pages/homepage.html"style="color: black; font-weight:bold"target="_blank" rel="noopener noreferrer">Sofia Briefing</a>
+ <a href="https://www.sia.aviation-civile.gouv.fr/"style="color: black; font-weight:bold" target="_blank" rel="noopener noreferrer">SIA</a>
+
+</div>
+
+
+
+        <p>
+          
+          Image webcam du Plessis-Belleville (LFPP)
+          <br>
+          Source : cam-aero.eu
+        </p>
+        <br>
+      
+
+
+      </main>
+
+
+      <footer>
+        <p>© 2025 Aéroclub Dassault Falcon Service | FR.DTO.0609 – Tous droits réservés</p>
+      </footer>
+    </div>
+  </div>
+
+    <script>
+        const correctPassword = "acdfs2025";
+
+        function checkPassword() {
+            const input = document.getElementById("password").value;
+            if (input === correctPassword) {
+                document.getElementById("login").style.display = "none";
+                document.getElementById("content").style.display = "block";
+            } else {
+                document.getElementById("error").textContent = "Mot de passe incorrect.";
+            }
+        }
+
+        // Ajout : Détecter appui sur la touche "Entrée"
+        document.getElementById("password").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                checkPassword();
+            }
+        });
+    </script>
+<script>
+function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function updateDateTime() {
+  const now = new Date();
+
+  // Obtenir le jour de la semaine
+  const jour = capitalizeFirstLetter(
+    now.toLocaleDateString('fr-FR', { weekday: 'long' })
+  );
+
+  const date = now.toLocaleDateString('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+
+  const heure = now.toLocaleTimeString('fr-FR', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+
+  document.getElementById('datetime').textContent = `${jour} ${date} – ${heure}`;
+}
+
+updateDateTime();
+setInterval(updateDateTime, 1000);
+</script>
+
+<script>
+function toggleMenu() {
+  const menu = document.getElementById("mobileMenu");
+  menu.classList.toggle("open");
+}
+</script>
+
+</body>
+</html>
