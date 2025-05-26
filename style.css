@@ -144,6 +144,27 @@ button.next {
   cursor: zoom-out;
 }
 
+.fullscreen button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2.5em;
+  background: none;
+  border: none;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.fullscreen-prev {
+  left: 20px;
+}
+
+.fullscreen-next {
+  right: 20px;
+}
+
 /* Responsive styles */
 @media (max-width: 90%) {
   .carousel {

@@ -79,7 +79,9 @@
 </div>
 <!-- Affichage plein écran -->
 <div class="fullscreen" id="fullscreen">
+  <button class="fullscreen-prev">‹</button>
   <img src="" alt="Zoomed image" id="fullscreen-img">
+  <button class="fullscreen-next">›</button>
 </div>
 
         </p>
@@ -173,19 +175,50 @@ document.querySelector('.next').addEventListener('click', () => {
   currentSlide = (currentSlide + 1) % slides.length;
   showSlide(currentSlide);
 });
+let fullscreenIndex = 0; // Index de l'image zoomée
 
 // Clic pour agrandir
-slides.forEach(slide => {
+slides.forEach((slide, i) => {
   slide.addEventListener('click', () => {
+    fullscreenIndex = i;
     fullscreenImg.src = slide.src;
     fullscreen.style.display = 'flex';
   });
 });
 
-// Quitter fullscreen
-fullscreen.addEventListener('click', () => {
+// Fermer le plein écran
+fullscreen.addEventListener('click', (e) => {
+  // Empêche de fermer si on clique sur un bouton ou l’image
+  if (e.target === fullscreenImg || e.target.tagName === 'BUTTON') return;
   fullscreen.style.display = 'none';
 });
+
+// Changer d'image en plein écran
+function showFullscreen(index) {
+  fullscreenIndex = (index + slides.length) % slides.length;
+  fullscreenImg.src = slides[fullscreenIndex].src;
+}
+
+// Boutons flèches
+document.querySelector('.fullscreen-prev').addEventListener('click', (e) => {
+  e.stopPropagation(); // Empêche de fermer le zoom
+  showFullscreen(fullscreenIndex - 1);
+});
+
+document.querySelector('.fullscreen-next').addEventListener('click', (e) => {
+  e.stopPropagation();
+  showFullscreen(fullscreenIndex + 1);
+});
+
+// Option : navigation clavier
+document.addEventListener('keydown', (e) => {
+  if (fullscreen.style.display === 'flex') {
+    if (e.key === 'ArrowLeft') showFullscreen(fullscreenIndex - 1);
+    if (e.key === 'ArrowRight') showFullscreen(fullscreenIndex + 1);
+    if (e.key === 'Escape') fullscreen.style.display = 'none';
+  }
+});
+
 
 // Swipe tactile (mobile)
 let startX = 0;
