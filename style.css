@@ -145,7 +145,7 @@ button.next {
 }
 
 /* Responsive styles */
-@media (max-width: 600px) {
+@media (max-width: 500px) {
   .carousel {
     border-radius: 0;
     box-shadow: none;
