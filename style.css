@@ -74,17 +74,18 @@ header h1 {
 
 .carousel {
   position: relative;
-  width: 600px;
-  height: 400px;
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 3/2;
   overflow: hidden;
   margin: auto;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  touch-action: pan-y; /* pour swiper horizontalement */
 }
 
 .slides {
   display: flex;
-  width: 100%;
   height: 100%;
   transition: transform 0.5s ease-in-out;
 }
@@ -94,6 +95,7 @@ header h1 {
   height: 100%;
   display: none;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .slide.active {
@@ -121,9 +123,6 @@ button.next {
   right: 10px;
 }
 
-/* Full screen----*/
-
-
 .fullscreen {
   display: none;
   position: fixed;
@@ -131,20 +130,32 @@ button.next {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.9);
   justify-content: center;
   align-items: center;
   z-index: 999;
 }
 
 .fullscreen img {
-  max-width: 90%;
-  max-height: 90%;
+  max-width: 90vw;
+  max-height: 90vh;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
   cursor: zoom-out;
 }
 
+/* Responsive styles */
+@media (max-width: 600px) {
+  .carousel {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  button.prev, button.next {
+    font-size: 1.5em;
+    padding: 5px;
+  }
+}
 
 /* -------------------------- Carroussel photos --------------------------------------- */
 /* -------------------------- Carroussel photos --------------------------------------- */

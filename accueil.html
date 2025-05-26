@@ -146,16 +146,24 @@ function toggleMenu() {
   menu.classList.toggle("open");
 }
 </script>
+
+
+
+
 <script>
 const slides = document.querySelectorAll('.slide');
+const fullscreen = document.getElementById('fullscreen');
+const fullscreenImg = document.getElementById('fullscreen-img');
 let currentSlide = 0;
 
+// Affiche le slide courant
 function showSlide(index) {
   slides.forEach((slide, i) => {
     slide.classList.toggle('active', i === index);
   });
 }
 
+// Boutons navigation
 document.querySelector('.prev').addEventListener('click', () => {
   currentSlide = (currentSlide - 1 + slides.length) % slides.length;
   showSlide(currentSlide);
@@ -166,16 +174,7 @@ document.querySelector('.next').addEventListener('click', () => {
   showSlide(currentSlide);
 });
 
-// Optionnel : démarrage automatique
-setInterval(() => {
-  currentSlide = (currentSlide + 1) % slides.length;
-  showSlide(currentSlide);
-}, 5000);
-</script>
-
-<script>const fullscreen = document.getElementById('fullscreen');
-const fullscreenImg = document.getElementById('fullscreen-img');
-
+// Clic pour agrandir
 slides.forEach(slide => {
   slide.addEventListener('click', () => {
     fullscreenImg.src = slide.src;
@@ -183,9 +182,41 @@ slides.forEach(slide => {
   });
 });
 
+// Quitter fullscreen
 fullscreen.addEventListener('click', () => {
   fullscreen.style.display = 'none';
-});</script>
+});
+
+// Swipe tactile (mobile)
+let startX = 0;
+
+document.querySelector('.carousel').addEventListener('touchstart', (e) => {
+  startX = e.touches[0].clientX;
+}, { passive: true });
+
+document.querySelector('.carousel').addEventListener('touchend', (e) => {
+  const endX = e.changedTouches[0].clientX;
+  const diff = endX - startX;
+
+  if (diff > 50) {
+    // Swipe droit
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
+  } else if (diff < -50) {
+    // Swipe gauche
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  }
+}, { passive: true });
+
+// Optionnel : changer auto toutes les 5 sec
+setInterval(() => {
+  currentSlide = (currentSlide + 1) % slides.length;
+  showSlide(currentSlide);
+}, 5000);
+</script>
+
+
 </body>
 </html>
 
