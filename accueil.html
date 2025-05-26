@@ -66,22 +66,21 @@
           Les documents opérationnels à l'intention des membres du club sont disponibles dans l'<a href="espace_membre.html" style="color: black; font-weight:bold">Espace Membre</a>.
  <br>
 
-
-  <div class="carousel">
-    <div class="slides" id="slideContainer">
-      <div class="slide"><img src="photos/vertical/vertical-1.jpg" alt="1"></div>
-      <div class="slide"><img src="photos/vertical/vertical-2.jpg" alt="2"></div>
-      <div class="slide"><img src="photos/vertical/vertical-1.jpg" alt="3"></div>
-      <div class="slide"><img src="photos/vertical/vertical-2.jpg" alt="4"></div>
-      <div class="slide"><img src="photos/vertical/vertical-1.jpg" alt="5"></div>
-    </div>
-    <div class="buttons">
-      <button onclick="prevSlide()">❮</button>
-      <button onclick="nextSlide()">❯</button>
-    </div>
+<br>
+ <div class="carousel">
+  <div class="slides">
+    <img src="photos/vdn/vdn-1.jpg" alt="Image 1" class="slide active">
+    <img src="photos/vertical/vertical-1.jpg" alt="Image 2" class="slide">
+    <img src="photos/vertical/vertical-2.jpg" alt="Image 3" class="slide">
+    <img src="photos/vertical/vertical-3.jpg" alt="Image 3" class="slide">
   </div>
-
-  <div class="dots" id="dotContainer"></div>
+  <button class="prev">‹</button>
+  <button class="next">›</button>
+</div>
+<!-- Affichage plein écran -->
+<div class="fullscreen" id="fullscreen">
+  <img src="" alt="Zoomed image" id="fullscreen-img">
+</div>
 
         </p>
        
@@ -147,47 +146,46 @@ function toggleMenu() {
   menu.classList.toggle("open");
 }
 </script>
-
-
 <script>
-    const slides = document.querySelectorAll('.slide');
-    const slideContainer = document.getElementById('slideContainer');
-    const dotContainer = document.getElementById('dotContainer');
-    let currentIndex = 0;
+const slides = document.querySelectorAll('.slide');
+let currentSlide = 0;
 
-    // Créer les points (dots)
-    slides.forEach((_, i) => {
-      const dot = document.createElement('span');
-      dot.classList.add('dot');
-      dot.addEventListener('click', () => goToSlide(i));
-      dotContainer.appendChild(dot);
-    });
+function showSlide(index) {
+  slides.forEach((slide, i) => {
+    slide.classList.toggle('active', i === index);
+  });
+}
 
-    function updateCarousel() {
-      slideContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
-      document.querySelectorAll('.dot').forEach((dot, i) => {
-        dot.classList.toggle('active', i === currentIndex);
-      });
-    }
+document.querySelector('.prev').addEventListener('click', () => {
+  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+  showSlide(currentSlide);
+});
 
-    function nextSlide() {
-      currentIndex = (currentIndex + 1) % slides.length;
-      updateCarousel();
-    }
+document.querySelector('.next').addEventListener('click', () => {
+  currentSlide = (currentSlide + 1) % slides.length;
+  showSlide(currentSlide);
+});
 
-    function prevSlide() {
-      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-      updateCarousel();
-    }
+// Optionnel : démarrage automatique
+setInterval(() => {
+  currentSlide = (currentSlide + 1) % slides.length;
+  showSlide(currentSlide);
+}, 5000);
+</script>
 
-    function goToSlide(index) {
-      currentIndex = index;
-      updateCarousel();
-    }
+<script>const fullscreen = document.getElementById('fullscreen');
+const fullscreenImg = document.getElementById('fullscreen-img');
 
-    updateCarousel(); // Initialisation
-  </script>
+slides.forEach(slide => {
+  slide.addEventListener('click', () => {
+    fullscreenImg.src = slide.src;
+    fullscreen.style.display = 'flex';
+  });
+});
 
+fullscreen.addEventListener('click', () => {
+  fullscreen.style.display = 'none';
+});</script>
 </body>
 </html>
 

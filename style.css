@@ -73,78 +73,77 @@ header h1 {
 /* -------------------------- Carroussel photos --------------------------------------- */
 
 .carousel {
-  width: 100%;
-  max-width: 900px;
-  margin: 20px auto;
-  overflow: hidden;
   position: relative;
+  width: 600px;
+  height: 400px;
+  overflow: hidden;
+  margin: auto;
   border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-
-  /* Limite la hauteur visible */
-  max-height: 400px;
-}
-
-.slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* remplit le cadre sans déformation */
-  display: block;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
 .slides {
   display: flex;
+  width: 100%;
+  height: 100%;
   transition: transform 0.5s ease-in-out;
 }
 
 .slide {
   min-width: 100%;
-  box-sizing: border-box;
-  flex-shrink: 0;
+  height: 100%;
+  display: none;
+  object-fit: cover;
 }
 
+.slide.active {
+  display: block;
+}
 
-.buttons {
+button.prev, button.next {
   position: absolute;
   top: 50%;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
   transform: translateY(-50%);
-  padding: 0 10px;
-  box-sizing: border-box;
-}
-
-.buttons button {
   background-color: rgba(0,0,0,0.5);
   border: none;
   color: white;
   font-size: 2em;
   padding: 10px;
   cursor: pointer;
-  border-radius: 5px;
+  z-index: 10;
 }
 
-.dots {
-  text-align: center;
-  margin-top: 10px;
+button.prev {
+  left: 10px;
 }
 
-.dot {
-  height: 12px;
-  width: 12px;
-  margin: 0 4px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  cursor: pointer;
+button.next {
+  right: 10px;
 }
 
-.active {
-  background-color: #333;
+/* Full screen----*/
+
+
+.fullscreen {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
 }
 
-
+.fullscreen img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  cursor: zoom-out;
+}
 
 
 /* -------------------------- Carroussel photos --------------------------------------- */
