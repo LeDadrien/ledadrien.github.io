@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aéroclub DFS</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="images/logo-dfs-onglet.png" type="image/png">
+</head>
+<body>
+
+  <header role="banner">
+    <a href="accueil.html">
+    <img src="images/logo_dfs_banner.png" alt="Logo ACDFS">
+    </a>
+
+
+
+<!-- Menu mobile qui glisse -->
+<nav class="mobile-slide-menu" id="mobileMenu">
+  <ul>
+    <li><a href="accueil.html">Accueil</a></li>
+    <li><a href="espace_membre.html">Espace Membre</a></li>
+    <li><a href="album_photo.html">Album Photo</a></li>
+    <li><a href="webcam.html">Webcam LFPP</a></li>
+    <li><a href="https://openflyers.com/acdfs/index.php" style="align-self: center;"><img src="images/logo-open-flyers.png" alt="Open-Flyers" class="footer-logo"></a></li>
+  </ul>
+</nav>
+   <h2 style="font-style: italic">Aéroclub Dassault Falcon Service</h2>
+   <!-- Bouton burger pour mobile -->
+<button class="burger" onclick="toggleMenu()">☰</button>
+    <div id="datetime" class="datetime"></div>
+  </header>
+
+ 
+</nav>
+  <div class="main-wrapper">
+    <aside class="sidebar">
+      <nav>
+        <ul>
+          <li><a href="accueil.html">Accueil</a></li>
+          <li><a href="espace_membre.html">Espace Membre</a></li>
+          <li><a href="album_photo.html">Album Photo</a></li>
+          <li><a href="webcam.html">Webcam LFPP</a></li>
+        </ul>
+      </nav>
+        <div id="datetime" class="datetime"></div>
+    <div class="sidebar-footer">
+    <a href="https://openflyers.com/acdfs/index.php" target="_blank" rel="noopener noreferrer">
+      <img src="images/logo-open-flyers.png" alt="Open-Flyers" class="footer-logo">
+      </a>
+
+    </div>
+    
+    </aside>
+
+
+
+
+
+    <div class="content">
+      <main>
+        <p>
+          Bienvenue sur l'album photo de l'aéroclub Dassault Falcon Service <br> <br>
+          Vous y trouverez diverses informations et photos de l'Aéroclub et de ses activités.<br> <br>
+          <img src="images/work-in-progress.jpg" alt="C172">
+         </p>
+       
+
+
+
+      </main>
+
+
+      <footer>
+        <p>© 2025 Aéroclub Dassault Falcon Service | FR.DTO.0609 – Tous droits réservés</p>
+      </footer>
+    </div>
+  </div>
+
+
+
+   <!-- Scirpt pour récupérer DATE ET HEURE -->
+
+<script>
+function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function updateDateTime() {
+  const now = new Date();
+
+  // Obtenir le jour de la semaine
+  const jour = capitalizeFirstLetter(
+    now.toLocaleDateString('fr-FR', { weekday: 'long' })
+  );
+
+  const date = now.toLocaleDateString('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+
+  const heure = now.toLocaleTimeString('fr-FR', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+
+  document.getElementById('datetime').textContent = `${jour} ${date} – ${heure}`;
+}
+
+updateDateTime();
+setInterval(updateDateTime, 1000);
+</script>
+
+
+
+
+   <!-- Scirpt pour le menu déroulant -->
+<script>
+function toggleMenu() {
+  const menu = document.getElementById("mobileMenu");
+  menu.classList.toggle("open");
+}
+</script>
+
+
+
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const fullscreen = document.getElementById('fullscreen');
+const fullscreenImg = document.getElementById('fullscreen-img');
+let currentSlide = 0;
+
+// Affiche le slide courant
+function showSlide(index) {
+  slides.forEach((slide, i) => {
+    slide.classList.toggle('active', i === index);
+  });
+}
+
+// Boutons navigation
+document.querySelector('.prev').addEventListener('click', () => {
+  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+  showSlide(currentSlide);
+});
+
+document.querySelector('.next').addEventListener('click', () => {
+  currentSlide = (currentSlide + 1) % slides.length;
+  showSlide(currentSlide);
+});
+let fullscreenIndex = 0; // Index de l'image zoomée
+
+// Clic pour agrandir
+slides.forEach((slide, i) => {
+  slide.addEventListener('click', () => {
+    fullscreenIndex = i;
+    fullscreenImg.src = slide.src;
+    fullscreen.style.display = 'flex';
+  });
+});
+
+// Fermer le plein écran
+fullscreen.addEventListener('click', (e) => {
+  // Empêche de fermer si on clique sur un bouton ou l’image
+  if (e.target === fullscreenImg || e.target.tagName === 'BUTTON') return;
+  fullscreen.style.display = 'none';
+});
+
+// Changer d'image en plein écran
+function showFullscreen(index) {
+  fullscreenIndex = (index + slides.length) % slides.length;
+  fullscreenImg.src = slides[fullscreenIndex].src;
+}
+
+// Boutons flèches
+document.querySelector('.fullscreen-prev').addEventListener('click', (e) => {
+  e.stopPropagation(); // Empêche de fermer le zoom
+  showFullscreen(fullscreenIndex - 1);
+});
+
+document.querySelector('.fullscreen-next').addEventListener('click', (e) => {
+  e.stopPropagation();
+  showFullscreen(fullscreenIndex + 1);
+});
+
+// Option : navigation clavier
+document.addEventListener('keydown', (e) => {
+  if (fullscreen.style.display === 'flex') {
+    if (e.key === 'ArrowLeft') showFullscreen(fullscreenIndex - 1);
+    if (e.key === 'ArrowRight') showFullscreen(fullscreenIndex + 1);
+    if (e.key === 'Escape') fullscreen.style.display = 'none';
+  }
+});
+
+
+// Swipe tactile (mobile)
+let startX = 0;
+
+document.querySelector('.carousel').addEventListener('touchstart', (e) => {
+  startX = e.touches[0].clientX;
+}, { passive: true });
+
+document.querySelector('.carousel').addEventListener('touchend', (e) => {
+  const endX = e.changedTouches[0].clientX;
+  const diff = endX - startX;
+
+  if (diff > 50) {
+    // Swipe droit
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
+  } else if (diff < -50) {
+    // Swipe gauche
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  }
+}, { passive: true });
+
+// Optionnel : changer auto toutes les 5 sec
+setInterval(() => {
+  currentSlide = (currentSlide + 1) % slides.length;
+  showSlide(currentSlide);
+}, 5000);
+
+
+
+// Fermer le fullscreen avec la croix
+document.getElementById('fullscreen-close').addEventListener('click', (e) => {
+  e.stopPropagation();
+  fullscreen.style.display = 'none';
+});
+
+
+
+</script>
+
+
+</body>
+</html>
+
+
+
