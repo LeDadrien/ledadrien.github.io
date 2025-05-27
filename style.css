@@ -37,12 +37,6 @@ header img {
   margin-right: 20px;
 }
 
-header img:hover {
-  transform: scale(1.1);
-
-
-}
-
 header h1 {
   margin: 0;
 }
@@ -147,7 +141,7 @@ button.next {
   max-height: 90vh;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-  
+  cursor: zoom-out;
 }
 
 .fullscreen button {
@@ -465,20 +459,15 @@ header h2 {
   top: 80px; /* Sous le header */
   left: -220px; /* Hors écran */
   width: 200px;
-  height: calc(100vh - 80px);
+  height: 100%;
   background-color: #252525;
   overflow-y: auto;
   transition: left 0.3s ease;
   z-index: 1000;
   padding-top: 20px;
 }
-.openflyers-link {
-  margin-top: auto; /* Pousse l'élément vers le bas */
-}
+
 .mobile-slide-menu ul {
-    display: flex;
-  flex-direction: column;
-  height: 100%;
   list-style: none;
   margin: 0;
   padding: 0;
