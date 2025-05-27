@@ -79,6 +79,7 @@
 </div>
 <!-- Affichage plein écran -->
 <div class="fullscreen" id="fullscreen">
+  <button class="fullscreen-close" id="fullscreen-close">✕</button> <!-- AJOUT -->
   <button class="fullscreen-prev">‹</button>
   <img src="" alt="Zoomed image" id="fullscreen-img">
   <button class="fullscreen-next">›</button>
@@ -247,6 +248,17 @@ setInterval(() => {
   currentSlide = (currentSlide + 1) % slides.length;
   showSlide(currentSlide);
 }, 5000);
+
+
+
+// Fermer le fullscreen avec la croix
+document.getElementById('fullscreen-close').addEventListener('click', (e) => {
+  e.stopPropagation();
+  fullscreen.style.display = 'none';
+});
+
+
+
 </script>
 
 

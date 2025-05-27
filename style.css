@@ -178,6 +178,33 @@ button.next {
   }
 }
 
+
+/* Style pour le bouton fullscreen close */
+/* Style pour le bouton fullscreen close */
+.fullscreen-close {
+    position: absolute !important; /* Utilisez !important pour forcer le style */
+    top: 150px !important; /* Ajustez cette valeur en fonction de la hauteur de votre header */
+    right: 20px !important;
+    z-index: 1000 !important;   /* Ajoutez d'autres styles comme la taille, la couleur, etc. */
+}
+
+.fullscreen-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 23%;
+}
+
+/* Sur mobile : taille plus petite */
+@media screen and (max-width: 600px) {
+  .fullscreen-close {
+    font-size: 1.5rem;
+    width: 30px;
+    height: 30px;
+    top: 10px;
+    right: 10px;
+  }
+}
+
+
 /* -------------------------- Carroussel photos --------------------------------------- */
 /* -------------------------- Carroussel photos --------------------------------------- */
 
