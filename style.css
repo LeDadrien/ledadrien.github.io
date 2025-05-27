@@ -183,7 +183,7 @@ button.next {
 /* Style pour le bouton fullscreen close */
 .fullscreen-close {
     position: absolute !important; /* Utilisez !important pour forcer le style */
-    top: 150px !important; /* Ajustez cette valeur en fonction de la hauteur de votre header */
+    top: 110px !important; /* Ajustez cette valeur en fonction de la hauteur de votre header */
     right: 20px !important;
     z-index: 1000 !important;   /* Ajoutez d'autres styles comme la taille, la couleur, etc. */
 }
