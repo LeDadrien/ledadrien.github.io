@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Générateur QR Code WiFi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #004BB1;
+      margin-bottom: 30px;
+    }
+
+    input {
+      display: block;
+      margin: 12px auto;
+      padding: 12px;
+      width: 100%;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      background-color: #004BB1;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    #qrcode, #logoPreview {
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+        width: 100%;
+      }
+
+      input, button {
+        width: 100%;
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Générateur QR Code WiFi</h1>
+    <input type="text" id="logement" placeholder="Nom du logement">
+    <input type="text" id="ssid" placeholder="Nom du réseau WiFi (SSID)">
+    <input type="text" id="password" placeholder="Mot de passe WiFi">
+    <button onclick="generatePDF()">Générer</button>
+    <div id="qrcode"></div>
+    <img id="logoPreview" src="logo_jut.png" />
+  </div>
+
+  <!-- Bibliothèques -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://unpkg.com/qr-code-styling/lib/qr-code-styling.js"></script>
+
+  <script>
+    async function generatePDF() {
+      const logement = document.getElementById('logement').value.trim();
+      const ssid = document.getElementById('ssid').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const logoImg = document.getElementById('logoPreview');
+
+      if (!logement || !ssid || !password) {
+        alert("Merci de remplir tous les champs.");
+        return;
+      }
+
+      const qrDiv = document.getElementById('qrcode');
+      qrDiv.innerHTML = '';
+
+      const qrCode = new QRCodeStyling({
+        width: 260,
+        height: 260,
+        type: "canvas",
+        data: `WIFI:T:WPA;S:${ssid};P:${password};;`,
+        image: "logo_just_un_toit.png",
+        dotsOptions: {
+          color: "#004BB1",
+          type: "rounded"
+        },
+        backgroundOptions: {
+          color: "transparent"
+        },
+        imageOptions: {
+          crossOrigin: "anonymous",
+          margin: 6
+        }
+      });
+
+      await new Promise((resolve) => {
+        qrCode.append(qrDiv);
+        setTimeout(resolve, 1000);
+      });
+
+      const canvas = qrDiv.querySelector("canvas");
+      if (!canvas) {
+        alert("Erreur lors de la génération du QR code.");
+        return;
+      }
+
+      const qrDataUrl = canvas.toDataURL();
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+
+      // Fond bleu très clair
+      doc.setFillColor(230, 240, 255);
+      doc.rect(0, 0, pageWidth, pageHeight, 'F');
+
+      // Logo principal (non déformé)
+      const logoWidth = pageWidth * 0.6;
+      const logoHeight = logoWidth * 0.2; // ratio fixe
+      doc.addImage(logoImg, 'JPEG', (pageWidth - logoWidth) / 2, 10, logoWidth, logoHeight);
+
+      let y = 10 + logoHeight + 20;
+
+      // QR code
+      const qrSize = 80;
+      doc.addImage(qrDataUrl, 'PNG', (pageWidth - qrSize) / 2, y, qrSize, qrSize);
+      y += qrSize + 16;
+
+      // Texte de scan
+      doc.setFontSize(16);
+      doc.setFont(undefined, 'bold');
+      doc.text("Flashez moi pour vous connecter ! / Scan me to connect !", pageWidth / 2, y, { align: "center" });
+      y += 20;
+
+      // Infos SSID et Password
+      doc.setFont(undefined, 'normal');
+      doc.setFontSize(14);
+      doc.text("Nom du réseau / Network name :", pageWidth / 2, y, { align: "center" });
+      y += 8;
+      doc.setFontSize(12);
+      doc.text(ssid, pageWidth / 2, y, { align: "center" });
+      y += 14;
+      doc.setFontSize(14);
+      doc.text("Mot de passe / Password :", pageWidth / 2, y, { align: "center" });
+      y += 8;
+      doc.setFontSize(12);
+      doc.text(password, pageWidth / 2, y, { align: "center" });
+
+      doc.save(`${logement}_qrcode_wifi.pdf`);
+    }
+  </script>
+
+</body>
+</html>
