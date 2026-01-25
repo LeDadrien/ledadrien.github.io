@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Avis Google</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: white;
+  margin: 0;
+  padding: 10px;
+}
+.review {
+  border-bottom: 1px solid #ddd;
+  padding: 12px 0;
+}
+.author {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.stars {
+  color: #f4b400;
+  margin-bottom: 4px;
+}
+.date {
+  font-size: 0.85em;
+  color: #666;
+  margin-bottom: 6px;
+}
+.text {
+  font-size: 0.95em;
+}
+</style>
+</head>
+<body>
+
+<div id="reviews">Chargement des avis…</div>
+
+<script>
+const placeId = "ChIJ8Ubf59MB5kcRn-haO9o6gNs";
+const apiKey = "AIzaSyAV8Zz7HW07g-0f3zYwF0MV4b3X4fpko-A";
+
+function formatDate(timestamp) {
+  const d = new Date(timestamp * 1000);
+  return d.toLocaleDateString("fr-FR");
+}
+
+function initMap() {
+  const service = new google.maps.places.PlacesService(document.createElement('div'));
+
+  service.getDetails({
+    placeId: placeId,
+    fields: ['reviews']
+  }, function(place, status) {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+
+      let html = "";
+      place.reviews.slice(0,5).forEach(r => {
+        html += `
+          <div class="review">
+            <div class="author">🧑 ${r.author_name}</div>
+            <div class="stars">⭐ ${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}</div>
+            <div class="date">📆 ${formatDate(r.time)}</div>
+            <div class="text">💬 ${r.text}</div>
+          </div>
+        `;
+      });
+
+      document.getElementById("reviews").innerHTML = html;
+    } else {
+      document.getElementById("reviews").innerHTML = "Impossible de charger les avis.";
+    }
+  });
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAV8Zz7HW07g-0f3zYwF0MV4b3X4fpko-A&libraries=places&callback=initMap"></script>
+
+</body>
+
+<div style="position:fixed;right:12px;bottom:12px;z-index:999;font-size:0.95em;color:#555;background:rgba(255,255,255,0.85);border-radius:8px;padding:6px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.08);display:flex;align-items:center;gap:7px;">
+  <img src="https://png.pngtree.com/png-clipart/20230916/original/pngtree-google-logo-vector-png-image_12256710.png" alt="Google" style="height:18px;width:18px;vertical-align:middle;opacity:0.8;"> 
+  <span style="font-size:0.97em;">Avis Google</span>
+</div>
+</html>
